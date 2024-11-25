@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+nginx:
+  build: ./requirements/nginx
+  container_name: NGINX
+  ports:
+    - "80:80"
+  restart: always
+  networks:
+    - net-ng-wp:
+  volumes:
+    - WordPress:
+
+
+networks:
+  net-ng-wp:
+  # net-wp-db:
+
+
+volumes:
+  # DB:
+  WordPress:
+
