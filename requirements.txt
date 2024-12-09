@@ -1,0 +1,5 @@
+<<nginx set-up>>
+ * https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-debian-11
+ * https://www.digitalocean.com/community/tutorials/initial-server-setup-with-debian-11
+https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-debian-10
+https://docs.nginx.com/nginx/admin-guide/web-server/web-server/
