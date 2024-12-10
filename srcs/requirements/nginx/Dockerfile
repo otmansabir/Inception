@@ -6,11 +6,13 @@ RUN apt-get update && apt-get upgrade -y
 # Install necessary packages
 RUN apt-get install nginx openssl -y
 
-# Generate SSL private key
+RUN mkdir -p /etc/ssl/csr /etc/ssl/certs
+
+# Generate private key
 RUN openssl genpkey -algorithm RSA -out /etc/ssl/inception.key
 
 # Create a Certificate Signing Request (CSR)
-RUN openssl req -new -key /etc/ssl/inception.key -out /etc/ssl/csr/inception.csr
+RUN openssl req -new -key /etc/ssl/inception.key -out /etc/ssl/csr/inception.csr -subj "/C=AU/ST=State/L=City/O=Organization/OU=Department/CN=example.com"
 
 # Generate SSL certificate
 RUN openssl x509 -req -days 365 -in /etc/ssl/csr/inception.csr -signkey /etc/ssl/inception.key -out /etc/ssl/certs/inception.crt

@@ -3,7 +3,7 @@ FROM debian:bullseye
 # Update and upgrade system packages
 RUN apt-get update && apt-get upgrade -y
 
-RUN apt-get insatll mariadb-server -y
+RUN apt-get install mariadb-server -y
 
 COPY ./tools/scrpt.bash /
 
@@ -11,5 +11,5 @@ RUN chmod +x /scrpt.bash
 
 EXPOSE 3306
 
-CMD ["bash", "scrpt.bash"]
+CMD ["bash", "./scrpt.bash"]
 
