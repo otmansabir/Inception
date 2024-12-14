@@ -12,7 +12,7 @@ RUN mkdir -p /etc/ssl/csr /etc/ssl/certs
 RUN openssl genpkey -algorithm RSA -out /etc/ssl/inception.key
 
 # Create a Certificate Signing Request (CSR)
-RUN openssl req -new -key /etc/ssl/inception.key -out /etc/ssl/csr/inception.csr -subj "/C=AU/ST=State/L=City/O=Organization/OU=Department/CN=example.com"
+RUN openssl req -new -key /etc/ssl/inception.key -out /etc/ssl/csr/inception.csr -subj "/C=MA/ST=Khouribga//L=Byout/O=1337CN=1337.Inception.com/OU=Byout/CN=osabir.42.fr"
 
 # Generate SSL certificate
 RUN openssl x509 -req -days 365 -in /etc/ssl/csr/inception.csr -signkey /etc/ssl/inception.key -out /etc/ssl/certs/inception.crt
@@ -25,6 +25,8 @@ RUN mkdir -p /var/www/wordpress
 
 # Set ownership of the WordPress directory
 RUN chown -R www-data:www-data /var/www/wordpress
+
+# EXPOSE 443
 
 # Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
