@@ -31,13 +31,13 @@ build:
 	docker-compose -f ./srcs/docker-compose.yml build
 
 clean:
-	@docker stop $$(docker ps -qa) || true
-	@docker rm $$(docker ps -qa) || true
-	@docker rmi -f $$(docker images -qa) || true
-	@docker volume rm $$(docker volume ls -q) || true
-	@docker network rm $$(docker network ls -q) || true
-	@rm -rf $(WP_DATA) || true
-	@rm -rf $(DB_DATA) || true
+	@docker stop $$(docker ps -qa) 
+	@docker rm $$(docker ps -qa)
+	@docker rmi -f $$(docker images -qa)
+	@docker volume rm $$(docker volume ls -q)
+	@docker network rm $$(docker network ls -q)
+	@rm -rf $(WP_DATA)
+	@rm -rf $(DB_DATA)
 
 
 re: clean up

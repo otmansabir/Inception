@@ -12,10 +12,10 @@ RUN mkdir -p /etc/ssl/csr /etc/ssl/certs
 RUN openssl genpkey -algorithm RSA -out /etc/ssl/inception.key
 
 # Create a Certificate Signing Request (CSR)
-RUN openssl req -new -key /etc/ssl/inception.key -out /etc/ssl/csr/inception.csr -subj "/C=MA/ST=Khouribga//L=Byout/O=1337CN=1337.Inception.com/OU=Byout/CN=osabir.42.fr"
+RUN openssl req -new -key /etc/ssl/inception.key -out /etc/ssl/csr/inception.csr -subj "/C=MA/O=1337/CN=sabir.42.fr"
 
 # Generate SSL certificate
-RUN openssl x509 -req -nodes -days 365 -in /etc/ssl/csr/inception.csr -signkey /etc/ssl/inception.key -out /etc/ssl/certs/inception.crt
+RUN openssl x509 -req -days 365 -in /etc/ssl/csr/inception.csr -signkey /etc/ssl/inception.key -out /etc/ssl/certs/inception.crt
 
 # Copy the Nginx configuration file
 COPY ./conf/nginx.conf /etc/nginx/

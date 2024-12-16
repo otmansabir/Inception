@@ -6,7 +6,7 @@ cd /var/www/wordpress
 chown -R www-data:www-data /var/www/wordpress
 
 # Download WordPress
-wp core download --allow-root --path=/var/www/wordpress 
+wp core download --allow-root 
 
 # Configure WordPress
 wp core config \
@@ -15,7 +15,6 @@ wp core config \
     --dbuser="$MARIADB_USER" \
     --dbpass="$MARIADB_PASSWORD" \
     --allow-root \
-    --path=/var/www/wordpress
 
 # Install WordPress
 wp core install \
@@ -25,7 +24,6 @@ wp core install \
     --admin_password="$WP_ADMIN_PASSWORD" \
     --admin_email="$WP_ADMIN_EMAIL" \
     --allow-root \
-    --path=/var/www/wordpress
 
 # Add a user
 wp user create \
@@ -34,7 +32,6 @@ wp user create \
     --user_pass="$WP_USER_PASS" \
     --role="$WP_USER_ROLE" \
     --allow-root \
-    --path=/var/www/wordpress
 
 # Adjust PHP-FPM settings
 sed -i '36 s@/run/php/php7.4-fpm.sock@9000@' /etc/php/7.4/fpm/pool.d/www.conf
@@ -42,5 +39,4 @@ mkdir -p /run/php
 
 # Start PHP-FPM
 /usr/sbin/php-fpm7.4 -F
-
 
