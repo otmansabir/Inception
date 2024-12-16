@@ -4,7 +4,7 @@ FROM debian:bullseye
 RUN apt-get update && apt-get upgrade -y
 
 # Install required packages
-RUN apt-get install -y php php7.4-fpm php-mysql curl
+RUN apt-get install -y php php7.4-fpm php-mysql 
 
 # Download wp-cli.phar directly
 ADD https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar /usr/local/bin/wp
