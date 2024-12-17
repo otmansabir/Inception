@@ -50,5 +50,3 @@ mkdir -p /run/php
 
 # Start PHP-FPM
 /usr/sbin/php-fpm7.4 -F
-
-sleep 1000000

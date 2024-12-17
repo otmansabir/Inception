@@ -15,6 +15,3 @@ mariadb -u root -e "FLUSH PRIVILEGES;"
 service mariadb stop
 
 mysqld_safe --port=${DB_PORT} --bind-address=${BIND_ADDR}
-
-
-sleep 1000000

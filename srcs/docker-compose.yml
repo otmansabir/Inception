@@ -11,7 +11,7 @@ services:
     env_file:
       - ./.env
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - incption_mariadb_data:/var/lib/mysql
     networks:
       - incption_net
 
@@ -27,7 +27,7 @@ services:
     env_file:
       - ./.env
     volumes:
-      - wordpress_data:/var/www/wordpress
+      - incption_wordpress_data:/var/www/wordpress
     networks:
       - incption_net
 
@@ -38,14 +38,14 @@ services:
       context: ./requirements/nginx/
       dockerfile: Dockerfile
     ports:
-      - "443:443"
+      - "$NGINX_PORT:$NGINX_PORT"
     restart: on-failure
     env_file:
       - ./.env
     depends_on:
       - wordpress
     volumes:
-      - wordpress_data:/var/www/wordpress
+      - incption_wordpress_data:/var/www/wordpress
     networks:
       - incption_net
     
@@ -55,13 +55,13 @@ networks:
     name: incption_net  
 
 volumes:
-  mariadb_data:
+  incption_mariadb_data:
     driver_opts:
       type: none
-      device: /Users/osabir/data/mariadb
+      device: $DB_DATA
       o: bind
-  wordpress_data:
+  incption_wordpress_data:
     driver_opts:
       type: none
-      device: /Users/osabir/data/wordpress
+      device: $WP_DATA
       o: bind

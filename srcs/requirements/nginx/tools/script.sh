@@ -14,40 +14,26 @@ openssl x509 -req -days 365 -in /etc/ssl/inception.csr -signkey /etc/ssl/incepti
 mkdir -p /etc/nginx/
 mkdir -p /var/www/wordpress
 
-echo > /etc/nginx/nginx.conf <<CONFIG
+echo "
 
-events \{\}
+events {}
 
-http \{ 
-    server \{ 
-        # Listen on port ${NGINX_PORT} for HTTPS traffic with SSL enabled
+http { 
+    include /etc/nginx/mime.types;
+    server { 
         listen ${NGINX_PORT} ssl;
-
         ssl_certificate /etc/ssl/inception.crt;
-
         ssl_certificate_key /etc/ssl/inception.key;
-
         ssl_protocols TLSv1.3;
-
         root /var/www/wordpress;
-
         server_name ${DOMAIN_NAME};
-
-        # The default file to serve when no specific file is requested
         index index.php;
-
-        # Handle requests for PHP files
-        location ~ \\.php\$ \{ 
-            # Include the FastCGI configuration for PHP
+        location ~ \\.php\$ { 
             include snippets/fastcgi-php.conf;
-
-            # Pass PHP requests to the FastCGI server running on port ${WP_PORT} of the 'wordpress' service
             fastcgi_pass ${WP_HOST}:${WP_PORT};
-        \}
-    \}
-\}
-CONFIG
+        }
+    }
+}
+" > /etc/nginx/nginx.conf
 
 nginx -g "daemon off;"
-
-sleep 1000000
