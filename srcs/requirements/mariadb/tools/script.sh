@@ -12,6 +12,9 @@ mariadb -u root -e "GRANT ALL PRIVILEGES ON \`${MARIA_DABE}\`.* TO \`${MARIADB_U
 
 mariadb -u root -e "FLUSH PRIVILEGES;"
 
-mysqladmin -u root -p"${MARIADB_PASSWORD}" shutdown
+service mariadb stop
 
-mysqld_safe --port=3306 --bind-address=0.0.0.0
+mysqld_safe --port=${DB_PORT} --bind-address=${BIND_ADDR}
+
+
+sleep 1000000

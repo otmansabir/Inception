@@ -3,6 +3,7 @@ version: '3.8'
 services:
   mariadb:
     container_name: mariadb
+    image: mariadb:incption
     build:
       context: ./requirements/mariadb/
       dockerfile: Dockerfile
@@ -16,6 +17,7 @@ services:
 
   wordpress:
     container_name: wordpress
+    image: wordpress:incption
     build:
       context: ./requirements/wordpress/
       dockerfile: Dockerfile
@@ -31,12 +33,12 @@ services:
 
   nginx:
     container_name: nginx
+    image: nginx:incption
     build:
       context: ./requirements/nginx/
       dockerfile: Dockerfile
     ports:
       - "443:443"
-
     restart: on-failure
     env_file:
       - ./.env
@@ -50,7 +52,7 @@ services:
 
 networks:
   incption_net:
-    driver: bridge
+    name: incption_net  
 
 volumes:
   mariadb_data:

@@ -1,20 +1,31 @@
 #!/bin/bash
 
+# set -e
+
 # Create necessary directories
 mkdir -p /var/www/wordpress
 cd /var/www/wordpress
-chown -R www-data:www-data /var/www/wordpress
 
 # Download WordPress
 wp core download --allow-root 
 
-# Configure WordPress
-wp core config \
-    --dbhost=mariadb:3306 \
-    --dbname="$MARIA_DABE" \
-    --dbuser="$MARIADB_USER" \
-    --dbpass="$MARIADB_PASSWORD" \
-    --allow-root \
+step=0
+while [[ $step -lt 60 ]]; do
+
+    echo "TRY[${step}]: Configure WordPress..."
+    wp core config \
+        --dbhost=${DB_HOST}:${DB_PORT} \
+        --dbname="$MARIA_DABE" \
+        --dbuser="$MARIADB_USER" \
+        --dbpass="$MARIADB_PASSWORD" \
+        --allow-root
+
+    if [[ $? -eq 0 ]]; then
+        break
+    fi
+    sleep 1
+    ((step++))
+done
 
 # Install WordPress
 wp core install \
@@ -23,7 +34,7 @@ wp core install \
     --admin_user="$WP_ADMIN_NAME" \
     --admin_password="$WP_ADMIN_PASSWORD" \
     --admin_email="$WP_ADMIN_EMAIL" \
-    --allow-root \
+    --allow-root
 
 # Add a user
 wp user create \
@@ -31,12 +42,13 @@ wp user create \
     "$WP_USER_EMAIL" \
     --user_pass="$WP_USER_PASS" \
     --role="$WP_USER_ROLE" \
-    --allow-root \
+    --allow-root
 
 # Adjust PHP-FPM settings
-sed -i '36 s@/run/php/php7.4-fpm.sock@9000@' /etc/php/7.4/fpm/pool.d/www.conf
+sed -i "36 s@/run/php/php7.4-fpm.sock@${WP_PORT}@" /etc/php/7.4/fpm/pool.d/www.conf
 mkdir -p /run/php
 
 # Start PHP-FPM
 /usr/sbin/php-fpm7.4 -F
 
+sleep 1000000

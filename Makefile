@@ -1,44 +1,38 @@
-#  docker compose up
-# docker compose up -d
-# docker compose down
-# docker compose stop
-# docker compose rm
-# docker compose restart
+WP_DATA = $(HOME)/data/wordpress
+DB_DATA = $(HOME)/data/mariadb
 
-WP_DATA = /Users/osabir/data/wordpress/
-DB_DATA = /Users/osabir/data/mariadb/
-
+COMPOSE_FILE = ./srcs/docker-compose.yml
 
 all: up
 
-up : build
+up: 
 	@mkdir -p $(WP_DATA)
 	@mkdir -p $(DB_DATA)
-	docker-compose -f ./srcs/docker-compose.yml up -d
+	docker compose -f $(COMPOSE_FILE) up 
 
-down :
-
-	docker-compose -f ./srcs/docker-compose.yml down
+down:
+	docker compose -f $(COMPOSE_FILE) down
 
 stop:
-	docker-compose -f ./srcs/docker-compose.yml stop
+	docker compose -f $(COMPOSE_FILE) stop
 
 start:
-	docker-compose -f ./srcs/docker-compose.yml start
-
+	docker compose -f $(COMPOSE_FILE) start
 
 build:
-	docker-compose -f ./srcs/docker-compose.yml build
+	docker compose -f $(COMPOSE_FILE) build
 
-clean:
-	@docker stop $$(docker ps -qa) 
-	@docker rm $$(docker ps -qa)
-	@docker rmi -f $$(docker images -qa)
-	@docker volume rm $$(docker volume ls -q)
-	@docker network rm $$(docker network ls -q)
-	@rm -rf $(WP_DATA)
-	@rm -rf $(DB_DATA)
+clean: down
+	docker rmi -f mariadb:incption
+	docker rmi -f wordpress:incption
+	docker rmi -f nginx:incption
 
+	@docker ps -qa | xargs -r docker stop
+	@docker ps -qa | xargs -r docker rm
+	@docker images -qa | xargs -r docker rmi -f
+	@docker volume ls -q | xargs -r docker volume rm
+	@docker network ls -q | grep -v "bridge\|host\|none" | xargs -r docker network rm
+	@rm -rf $(WP_DATA) $(DB_DATA)
 
 re: clean up
 

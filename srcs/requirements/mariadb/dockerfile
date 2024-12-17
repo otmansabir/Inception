@@ -5,11 +5,11 @@ RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get install mariadb-server -y
 
-COPY ./tools/scrpt.bash /tmp/
+COPY ./tools/script.sh /tmp/
 
-RUN chmod +x /tmp/scrpt.bash
+RUN chmod +x /tmp/script.sh
 
 EXPOSE 3306
 
-CMD ["bash", "./tmp/scrpt.bash"]
+CMD ["./tmp/script.sh"]
 
