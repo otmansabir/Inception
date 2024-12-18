@@ -2,13 +2,11 @@
 
 mkdir -p /etc/ssl/
 
-# Generate private key
 openssl genpkey -algorithm RSA -out /etc/ssl/inception.key
 
 # Create a Certificate Signing Request (CSR)
 openssl req -new -key /etc/ssl/inception.key -out /etc/ssl/inception.csr -subj "/C=${C}/O=${O}/CN=${DOMAIN_NAME}"
 
-# Generate SSL certificate
 openssl x509 -req -days 365 -in /etc/ssl/inception.csr -signkey /etc/ssl/inception.key -out /etc/ssl/inception.crt
 
 mkdir -p /etc/nginx/
