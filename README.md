@@ -66,10 +66,3 @@ All services are containerized and orchestrated together, following security bes
 
 - [Otman Sabir](https://github.com/otmansabir)
 
-## 📜 License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
-
----
-
-**Note:** Replace or extend the sections above according to your specific project setup, requirements, and goals.
